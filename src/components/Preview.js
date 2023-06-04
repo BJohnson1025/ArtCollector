@@ -14,29 +14,30 @@ const Preview = ({
 }) => {
   const info = searchResults.info;
   const records = searchResults.records;
-};
-/**
- * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
- * and also destructure info and records from props.searchResults
- *
- * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
- */
 
-/**
- * Don't touch this function, it's good to go.
- *
- * It has to be defined inside the Preview component to have access to setIsLoading, setSearchResults, etc...
- */
-async function fetchPage(pageUrl) {
-  setIsLoading(true);
+  /**
+   * Destructure setSearchResults, setFeaturedResult, and setIsLoading from props
+   * and also destructure info and records from props.searchResults
+   *
+   * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
+   */
 
-  try {
-    const results = await fetchQueryResultsFromURL(pageUrl);
-    setSearchResults(results);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setIsLoading(false);
+  /**
+   * Don't touch this function, it's good to go.
+   *
+   * It has to be defined inside the Preview component to have access to setIsLoading, setSearchResults, etc...
+   */
+  async function fetchPage(pageUrl) {
+    setIsLoading(true);
+
+    try {
+      const results = await fetchQueryResultsFromURL(pageUrl);
+      setSearchResults(results);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -44,7 +45,7 @@ async function fetchPage(pageUrl) {
       <header className="pagination">
         {/* This button should be disabled if nothing is set in info.prev, and should call fetchPage with info.prev when clicked */}
         <button
-          disabled={info.prev}
+          disabled={!info.prev}
           className="previous"
           onClick={() => {
             fetchPage(info.prev);
@@ -71,21 +72,15 @@ async function fetchPage(pageUrl) {
                 key={index}
                 className="object-preview"
                 onClick={(event) => {
-                  // prevent the default
-                  // set the featured result to be this record, using setFeaturedResult
                   event.preventDefault();
                   setFeaturedResult(record);
                 }}
               >
-                {
-                  // if the record.primaryimageurl exists, show this: <img src={ record.primaryimageurl } alt={ record.description } />, otherwise show nothing
-                }
+                {}
                 {record.primaryimageurl ? (
                   <img src={record.primaryimageurl} alt={record.description} />
                 ) : null}
-                {
-                  // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
-                }
+                {}
                 {record.title ? <h3>{record.title}</h3> : <h3>MISSING INFO</h3>}
               </div>
             );
@@ -110,6 +105,6 @@ async function fetchPage(pageUrl) {
       </section>
     </aside>
   );
-}
+};
 
 export default Preview;
